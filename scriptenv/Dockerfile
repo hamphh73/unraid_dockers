@@ -25,7 +25,8 @@ RUN apt-get update -qq && \
 	apt-get install -qy python3 python3-requests ffmpeg ufraw-batch
 
 VOLUME /data \
-	/scripts
+	/scripts \
+	/logs
 
 ENTRYPOINT ["python3"]
 CMD ["--version"]
