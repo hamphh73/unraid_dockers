@@ -15,6 +15,9 @@ CMD ["/sbin/my_init"]
 RUN usermod -u 99 nobody && \
     usermod -g 100 nobody
 
+# Update Image
+RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+	
 # Install dependencies, build and install tvheadend
 RUN apt-get update -qq && \
 	apt-get install -qy \
@@ -29,12 +32,17 @@ EXPOSE 9981 9982
 VOLUME /config \
        /recordings \
 	   /data
-
+	   
+# Initialize Timeshift Ramdisk
+RUN mkdir -p /etc/my_init.d
+ADD ramdisk.sh /etc/my_init.d/ramdisk.sh
+RUN chmod +x /etc/my_init.d/ramdisk.sh
+	   
 # Add tv_grab_wg to /usr/bin/
 ADD tv_grab_wg tv_grab_file /usr/bin/
 RUN chmod +x /usr/bin/tv_grab_*
 
 #Start tvheadend when container starts
 RUN mkdir -p /etc/service/tvheadend
-ADD tvheadend /etc/service/tvheadend/run
+ADD tvheadend.sh /etc/service/tvheadend/run
 RUN chmod +x /etc/service/tvheadend/run

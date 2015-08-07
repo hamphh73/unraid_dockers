@@ -2,4 +2,3 @@
 mkdir /timeshift
 mount -t ramfs ramfs /timeshift
 chmod 777 /timeshift
-exec /usr/local/bin/tvheadend -C -u nobody -g users -c /config
