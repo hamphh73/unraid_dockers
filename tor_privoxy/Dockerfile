@@ -55,5 +55,5 @@ RUN chmod +x /etc/service/privoxy/run
 
 #Start Tor when container starts
 RUN mkdir -p /etc/service/tor
-ADD privoxy.sh /etc/service/tor/run
+ADD tor.sh /etc/service/tor/run
 RUN chmod +x /etc/service/tor/run
