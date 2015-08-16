@@ -26,8 +26,8 @@ RUN apt-get install -qy git build-essential automake libevent-dev libssl-dev
 
 # Compile && install Privoxy
 RUN cd /tmp && \
-	wget -q -O http://sourceforge.net/projects/ijbswa/files/Sources/$PRIVOXY_VERSION%20%28stable%29/privoxy-$PRIVOXY_VERSION-stable-src.tar.gz && \
-	tar xzvf privoxy-$PRIVOXY_VERSION-stable-src.tar.gz && cd privoxy-$PRIVOXY_VERSION-stable && \
+	wget -q -O http://sourceforge.net/projects/ijbswa/files/Sources/${PRIVOXY_VERSION}%20%28stable%29/privoxy-${PRIVOXY_VERSION}-stable-src.tar.gz && \
+	tar xzvf privoxy-${PRIVOXY_VERSION}-stable-src.tar.gz && cd privoxy-${PRIVOXY_VERSION}-stable && \
 	autoheader && autoconf && ./configure && make && make install USER=nobody GROUP=nobody
 	
 # Compile && install Tor
