@@ -1,2 +1,2 @@
 #!/bin/bash
-exec  /usr/sbin/privoxy --no-daemon --user nobody /etc/privoxy/
+exec  /usr/local/sbin/privoxy --no-daemon --user nobody /usr/local/etc/privoxy/
