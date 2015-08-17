@@ -22,13 +22,13 @@ ENV TOR_VERSION 0.1
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 	
 # Install dependencies, build
-RUN apt-get install -qy git build-essential automake libevent-dev libssl-dev
+RUN apt-get install -qy wget git build-essential automake libevent-dev libssl-dev
 
 # Compile && install Privoxy
 RUN cd /tmp && \
-	wget -q -O http://sourceforge.net/projects/ijbswa/files/Sources/${PRIVOXY_VERSION}%20%28stable%29/privoxy-${PRIVOXY_VERSION}-stable-src.tar.gz && \
+	wget -q http://sourceforge.net/projects/ijbswa/files/Sources/${PRIVOXY_VERSION}%20%28stable%29/privoxy-${PRIVOXY_VERSION}-stable-src.tar.gz && \
 	tar xzvf privoxy-${PRIVOXY_VERSION}-stable-src.tar.gz && cd privoxy-${PRIVOXY_VERSION}-stable && \
-	autoheader && autoconf && ./configure && make && make install USER=nobody GROUP=nobody
+	autoheader && autoconf && ./configure && make && make install -i
 	
 # Compile && install Tor
 RUN cd /tmp && git clone https://git.torproject.org/tor.git && \
@@ -36,14 +36,14 @@ RUN cd /tmp && git clone https://git.torproject.org/tor.git && \
 	cp /usr/local/etc/tor/torrc.sample /usr/local/etc/tor/torrc
 	
 # Clean up
-RUN apt-get purge -qq build-essential pkg-config git automake && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get purge -qq wget build-essential pkg-config git automake && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Configure Privoxy using Tor
-RUN echo "forward-socks5t             /     127.0.0.1:9050 ." >> /etc/privoxy/config
+RUN echo "forward-socks5t             /     127.0.0.1:9050 ." >> /usr/local/etc/privoxy/config
 
 EXPOSE 8118 9050
 
-VOLUME /etc/privoxy \
+VOLUME /usr/local/etc/privoxy \
        /usr/local/etc/tor \
 	   /var/log/privoxy \
 	   /var/log/tor
