@@ -1,22 +1,26 @@
 FROM phusion/baseimage:0.9.16
 MAINTAINER hamphh <docker@hampelhh.de>
-ENV DEBIAN_FRONTEND noninteractive
+
+# Set correct environment variables
+ENV DEBIAN_FRONTEND=noninteractive HOME="/root" TERM=xterm LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
+
+# Set the locale
+RUN locale-gen en_US.UTF-8
+
+# Configure user nobody to match unRAID's settings
+RUN usermod -u 99 nobody && \
+	usermod -g 100 nobody && \
+	usermod -d /home nobody && \
+	chown -R nobody:users /home
 
 #Disable the SSH server
 RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 
-# Set correct environment variables.
-ENV HOME /root
-
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-#Change uid & gid to match Unraid
-RUN usermod -u 99 nobody && \
-    usermod -g 100 nobody
-
 ENV PRIVOXY_VERSION 3.0.23
-ENV TOR_VERSION 0.1
+ENV TOR_VERSION 0.2.6.10
 	
 # Update Image
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
@@ -31,23 +35,26 @@ RUN cd /tmp && \
 	autoheader && autoconf && ./configure && make && make install -i
 	
 # Compile && install Tor
-RUN cd /tmp && git clone https://git.torproject.org/tor.git && \
-	cd tor && ./autogen.sh && ./configure --disable-asciidoc && make && make install && \
-	cp /usr/local/etc/tor/torrc.sample /usr/local/etc/tor/torrc
+RUN cd /tmp && wget -q https://www.torproject.org/dist/tor-${TOR_VERSION}.tar.gz && \
+	tar xzvf tor-${TOR_VERSION}.tar.gz && cd tor-${TOR_VERSION} && \
+	./configure --disable-asciidoc && make && make install && chown -R nobody:users /usr/local/share/tor
 	
 # Clean up
 RUN apt-get purge -qq wget build-essential pkg-config git automake && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Configure Privoxy using Tor
-RUN echo "forward-socks5t             /     127.0.0.1:9050 ." >> /usr/local/etc/privoxy/config
+# Copy config
+ADD config/ /root/
 
 EXPOSE 8118 9050
 
-VOLUME /usr/local/etc/privoxy \
-       /usr/local/etc/tor \
-	   /var/log/privoxy \
-	   /var/log/tor
-	   
+VOLUME /config \
+	   /logs
+
+# Initialize on boot
+RUN mkdir -p /etc/my_init.d
+ADD initialize.sh /etc/my_init.d/initialize.sh
+RUN chmod +x /etc/my_init.d/initialize.sh
+
 #Start Privoxy when container starts
 RUN mkdir -p /etc/service/privoxy
 ADD privoxy.sh /etc/service/privoxy/run
