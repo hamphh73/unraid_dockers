@@ -27,6 +27,9 @@ RUN apt-get update -qq && \
 VOLUME /data \
 	/scripts \
 	/logs
+	
+ADD run.sh /root/run.sh
+RUN chmod +x /root/run.sh
 
-ENTRYPOINT ["python3"]
+ENTRYPOINT ["/root/run.sh"]
 CMD ["--version"]
