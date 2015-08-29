@@ -5,17 +5,22 @@ for dir in addons configurations contexts webapps; do
 		mkdir -p /data/openhab/$dir/
 		cp -r /opt/openhab/$dir.org/* /data/openhab/$dir/
 		chown -R nobody:users /data/openhab/$dir
+		chmod -R 777 /data/openhab/$dir
 	fi
 done
 
-if [ ! -d "/data/openhab/workspace/" ]; then
-	mkdir /data/openhab/workspace/
-	chown -R nobody:users /data/openhab/workspace/
-fi
+for dir in workspace data; do
+	if [ ! -d "/data/openhab/$dir/" ]; then
+		mkdir /data/openhab/$dir/
+		chown -R nobody:users /data/openhab/$dir/
+		chmod -R 777 /data/openhab/$dir
+	fi
+done
 
 if [ ! -d "/logs/openhab/" ]; then
 	mkdir /logs/openhab/
 	chown -R nobody:users /logs/openhab/
+	chmod -R 777 /data/openhab/$dir
 fi
 
 if [ -f "/data/openhab/configurations/addons.list" ]; then
