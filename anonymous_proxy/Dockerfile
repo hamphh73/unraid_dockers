@@ -19,41 +19,59 @@ RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-ENV PRIVOXY_VERSION 3.0.23
-ENV TOR_VERSION 0.2.6.10
-	
 # Update Image
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 	
-# Install dependencies, build
-RUN apt-get install -qy wget git build-essential automake libevent-dev libssl-dev
+# Install build dependencies
+RUN apt-get install -qy wget build-essential
+
+ENV PRIVOXY_VERSION 3.0.23
+
+# Install privoxy dependencies
+RUN apt-get install -qy automake zlib1g-dev
 
 # Compile && install Privoxy
 RUN cd /tmp && \
 	wget -q http://sourceforge.net/projects/ijbswa/files/Sources/${PRIVOXY_VERSION}%20%28stable%29/privoxy-${PRIVOXY_VERSION}-stable-src.tar.gz && \
 	tar xzvf privoxy-${PRIVOXY_VERSION}-stable-src.tar.gz && cd privoxy-${PRIVOXY_VERSION}-stable && \
-	autoheader && autoconf && ./configure && make && make install -i
+	autoheader && autoconf && \
+	./configure  --disable-toggle  --disable-editor  --disable-force --with-user=nobody --with-group=users && \
+	make && make install
 	
+# Initialize privoxy
+ADD pre_init_privoxy.sh /home/pre_init_privoxy.sh
+RUN chmod +x /home/pre_init_privoxy.sh
+RUN /home/pre_init_privoxy.sh
+
+#### --------------- tor -------------- #####
+	
+ENV TOR_VERSION 0.2.6.10
+
+# Install tor dependencies
+RUN apt-get install -qy libevent-dev libssl-dev
+
 # Compile && install Tor
 RUN cd /tmp && wget -q https://www.torproject.org/dist/tor-${TOR_VERSION}.tar.gz && \
 	tar xzvf tor-${TOR_VERSION}.tar.gz && cd tor-${TOR_VERSION} && \
-	./configure --disable-asciidoc && make && make install && chown -R nobody:users /usr/local/share/tor
+	./configure --disable-asciidoc && make && make install
 	
+# Initialize tor
+ADD pre_init_tor.sh /home/pre_init_tor.sh
+RUN chmod +x /home/pre_init_tor.sh
+RUN /home/pre_init_tor.sh
+
 # Clean up
-RUN apt-get purge -qq wget build-essential pkg-config git automake && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get purge -qq wget build-essential automake && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Copy config
-ADD config/ /root/
+EXPOSE 8119 9050
 
-EXPOSE 8118 9050
-
-VOLUME /config \
+VOLUME /data \
 	   /logs
 
-# Initialize on boot
+# Initialize tor on boot
 RUN mkdir -p /etc/my_init.d
-ADD initialize.sh /etc/my_init.d/initialize.sh
-RUN chmod +x /etc/my_init.d/initialize.sh
+ADD init_tor.sh /etc/my_init.d/init_tor.sh
+RUN chmod +x /etc/my_init.d/init_tor.sh
 
 #Start Privoxy when container starts
 RUN mkdir -p /etc/service/privoxy
