@@ -1,0 +1,5 @@
+# Foward to privoxy
+via off
+forwarded_for off
+cache_peer 127.0.0.1 parent 8118 0 default no-query no-digest no-netdb-exchange
+never_direct allow all
