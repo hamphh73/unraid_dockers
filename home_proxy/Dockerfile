@@ -38,17 +38,17 @@ RUN cd /tmp && \
 	./configure  --disable-toggle  --disable-editor  --disable-force --with-user=nobody --with-group=users && \
 	make && make install
 	
-ENV DANS_GUARDIAN_VERSION 2.12.0.3
+ENV E2GUARDIAN_VERSION 3.2.0
 
 # Install privoxy dependencies
-RUN apt-get install -qy pkg-config libpcre3-dev
+RUN apt-get install -qy pkg-config libpcre3-dev libssl-dev
 
-# Install DansGuardian
+# Install e2guardian
 RUN cd /tmp && \
-	wget -q http://downloads.sourceforge.net/project/dansguardian/dansguardian-${DANS_GUARDIAN_VERSION}.tar.bz2 && \
-	tar --bzip2 -xvf dansguardian-${DANS_GUARDIAN_VERSION}.tar.bz2 && cd dansguardian-${DANS_GUARDIAN_VERSION} && \
-	./configure && make && make install
-	 
+	wget -q https://github.com/e2guardian/e2guardian/archive/v${E2GUARDIAN_VERSION}.tar.gz && \
+	tar xzvf v${E2GUARDIAN_VERSION}.tar.gz && cd e2guardian-${E2GUARDIAN_VERSION} && \
+	./autogen.sh && ./configure --enable-sslmitm && make && make install
+
 ENV SQUID_VERSION 3.5.7
 	 
 RUN apt-get install -qy libpam0g-dev libldap-dev
@@ -75,10 +75,10 @@ ADD squid.conf.append /home/squid.conf.append
 RUN chmod +x /home/pre_init_squid.sh
 RUN /home/pre_init_squid.sh
 
-# Pre-Initialize dansguardian
-ADD pre_init_dansguardian.sh /home/pre_init_dansguardian.sh
-RUN chmod +x /home/pre_init_dansguardian.sh
-RUN /home/pre_init_dansguardian.sh
+# Pre-Initialize e2guardian
+ADD pre_init_e2guardian.sh /home/pre_init_e2guardian.sh
+RUN chmod +x /home/pre_init_e2guardian.sh
+RUN /home/pre_init_e2guardian.sh
 
 EXPOSE 8081 3128
 
@@ -95,10 +95,10 @@ RUN mkdir -p /etc/my_init.d
 ADD init_squid.sh /etc/my_init.d/init_squid.sh
 RUN chmod +x /etc/my_init.d/init_squid.sh
 	   
-# Initialize dansguardian on boot
+# Initialize e2guardian on boot
 RUN mkdir -p /etc/my_init.d
-ADD init_dansguardian.sh /etc/my_init.d/init_dansguardian.sh
-RUN chmod +x /etc/my_init.d/init_dansguardian.sh
+ADD init_e2guardian.sh /etc/my_init.d/init_e2guardian.sh
+RUN chmod +x /etc/my_init.d/init_e2guardian.sh
 
 #Start Privoxy when container starts
 RUN mkdir -p /etc/service/privoxy
@@ -110,7 +110,7 @@ RUN mkdir -p /etc/service/squid
 ADD squid.sh /etc/service/squid/run
 RUN chmod +x /etc/service/squid/run
 
-#Start DansGuardian when container starts
-RUN mkdir -p /etc/service/dansguardian
-ADD dansguardian.sh /etc/service/dansguardian/run
-RUN chmod +x /etc/service/dansguardian/run
+#Start e2guardian when container starts
+RUN mkdir -p /etc/service/e2guardian
+ADD e2guardian.sh /etc/service/e2guardian/run
+RUN chmod +x /etc/service/e2guardian/run
