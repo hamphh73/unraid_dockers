@@ -48,6 +48,9 @@ RUN cd /tmp && \
 	wget -q https://github.com/e2guardian/e2guardian/archive/v${E2GUARDIAN_VERSION}.tar.gz && \
 	tar xzvf v${E2GUARDIAN_VERSION}.tar.gz && cd e2guardian-${E2GUARDIAN_VERSION} && \
 	./autogen.sh && ./configure --enable-sslmitm && make && make install
+	
+ADD update_e2guardian_blacklist.sh /etc/cron.daily/update_e2guardian_blacklist
+RUN chmod +x /etc/cron.daily/update_e2guardian_blacklist
 
 ENV SQUID_VERSION 3.5.7
 	 
