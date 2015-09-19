@@ -46,6 +46,8 @@ cp lib/Modules/Release/libhomematicwired.so /var/lib/homegear/modules/mod_homema
 cp lib/Modules/Release/libmax.so /var/lib/homegear/modules/mod_max.so
 cp lib/Modules/Release/libinsteon.so /var/lib/homegear/modules/mod_insteon.so
 cp lib/Modules/Release/libphilipshue.so /var/lib/homegear/modules/mod_philipshue.so
+mkdir /var/run/homegear
+chmod 755 /var/run/homegear
 
 # customize main.conf
 cd /etc/homegear
