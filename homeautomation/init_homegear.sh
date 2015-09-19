@@ -34,4 +34,5 @@ cp -r -u /var/lib/homegear/scripts /data/homegear/data/templates
 chmod -R 777 /data/homegear/data/templates/scripts
 
 # Start Homegear directly (doesn't work with runit)
-/usr/bin/homegear -d -c /data/homegear/config
+rm -f /var/run/homegear/homegear.pid
+/usr/bin/homegear -d -p /var/run/homegear/homegear.pid -c /data/homegear/config

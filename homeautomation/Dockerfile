@@ -75,7 +75,9 @@ VOLUME /data \
 # Initialize and start homegear on boot
 RUN mkdir -p /etc/my_init.d
 ADD init_homegear.sh /etc/my_init.d/init_homegear.sh
+ADD terminate_homegear.sh /home/terminate_homegear.sh
 RUN chmod +x /etc/my_init.d/init_homegear.sh
+RUN chmod +x /home/terminate_homegear.sh
 	   
 # Initialize openhab on boot
 RUN mkdir -p /etc/my_init.d
