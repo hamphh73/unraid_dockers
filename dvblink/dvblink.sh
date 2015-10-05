@@ -31,4 +31,5 @@ mkdir -p /timeshift
 mount -t ramfs ramfs /timeshift
 chmod 777 /timeshift
 
+dbus-daemon --system --fork
 /usr/local/bin/dvblink/start2.sh

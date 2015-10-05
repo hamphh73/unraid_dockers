@@ -17,3 +17,5 @@ for logfile in dvblink_reg.log dvblink_server.log dvblink_webserver.log; do
 	rm -f /usr/local/bin/dvblink/$logfile
 	ln -s /logs/dvblink/$logfile /usr/local/bin/dvblink/$logfile
 done
+
+mkdir -p /var/run/dbus
