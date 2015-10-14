@@ -27,8 +27,9 @@ RUN	cd /tmp && wget --no-check-certificate https://developer.spotify.com/downloa
 	cd /home && git clone https://github.com/olreti/spori
 	
 RUN sed -i.bak "s/printstr(\"\\\\r Recording/#printstr(\"\\\\r Recording/" /home/spori/jbripper.py && \
-	rm /home/spori/jbripper.py.bak
-
+	sed -i.bak "s/name()/name().encode(\"utf-8\")/" /home/spori/jukebox.py && \
+	rm /home/spori/*.bak
+	
 # Clean up
 RUN apt-get purge -qq wget git && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 	
