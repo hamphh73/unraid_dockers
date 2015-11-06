@@ -32,4 +32,4 @@ if [ -f "/data/openhab/configurations/addons.list" ]; then
 		fi
 	done </data/openhab/configurations/addons.list
 fi
-cp -s /data/openhab/addinitonal_addons/* /data/openhab/addons/
+cp -s /data/openhab/additional_addons/* /data/openhab/addons/
