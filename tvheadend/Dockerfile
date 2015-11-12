@@ -24,7 +24,7 @@ RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold
 	
 # Install dependencies, build and install tvheadend
 RUN apt-get install -qy build-essential git pkg-config libssl-dev bzip2 wget python gettext && \
-	cd /tmp && git clone https://github.com/tvheadend/tvheadend.git && cd tvheadend && git checkout e9a7b3c && \
+	cd /tmp && git clone https://github.com/tvheadend/tvheadend.git && cd tvheadend && \
 	./configure --disable-hdhomerun_client --disable-libav && make && make install
 
 
