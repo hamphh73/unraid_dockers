@@ -14,8 +14,10 @@ RUN apt-get update && \
     locale-gen C.UTF-8 && \
     /usr/sbin/update-locale LANG=C.UTF-8 && \
     apt-get remove -y locales
-
 ENV LANG C.UTF-8
+
+# Timezone
+RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
 
 # Python, ffmpeg ufraw	
 RUN apt-get update -qq && \
@@ -38,6 +40,8 @@ RUN apt-get install -qy wget && cd /tmp && \
 	update-alternatives --set "java" "/opt/Oracle_Java/${JRE_VERSION}/bin/java" && \
 	update-alternatives --set "javaws" "/opt/Oracle_Java/${JRE_VERSION}/bin/javaws"
 
+RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
+	
 # Clean up
 RUN apt-get purge -qq wget && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
