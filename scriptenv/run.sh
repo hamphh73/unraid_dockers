@@ -6,8 +6,12 @@ shift
 
 if [ "$CMD" = "python" ]; then
 	exec python3 "$@"
-fi
-
-if [ "$CMD" = "java" ]; then
+elif [ "$CMD" = "java" ]; then
 	exec java "$@"
+elif [ "$CMD" = "bash" ]; then
+	SCRIPT=$1
+	shift
+	source $SCRIPT "$@"
+else
+	echo "Use (python|java|bash) <scripts> [<params>]"
 fi

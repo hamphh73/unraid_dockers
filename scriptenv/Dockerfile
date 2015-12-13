@@ -25,7 +25,7 @@ RUN apt-get update -qq && \
 	apt-get update -qq && \
 	apt-get install -qy --force-yes deb-multimedia-keyring && \
 	apt-get update -qq && \
-	apt-get install -qy python3 python3-requests ffmpeg ufraw-batch
+	apt-get install -qy python3 python3-requests ffmpeg ufraw-batch nfs-common
 
 ENV JRE_VERSION jre1.8.0_60
 ENV JRE_FILE jre-8u60-linux-x64.tar.gz
