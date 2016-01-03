@@ -19,7 +19,7 @@ RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-ENV DELUGE_VERSION 1.3.11
+ENV DELUGE_VERSION 1.3.12
 	
 # Update Image
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"

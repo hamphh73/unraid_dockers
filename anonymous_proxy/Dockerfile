@@ -45,7 +45,7 @@ RUN /home/pre_init_privoxy.sh
 
 #### --------------- tor -------------- #####
 	
-ENV TOR_VERSION 0.2.6.10
+ENV TOR_VERSION 0.2.7.6
 
 # Install tor dependencies
 RUN apt-get install -qy libevent-dev libssl-dev
