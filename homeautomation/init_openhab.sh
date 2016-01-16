@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for dir in addons configurations contexts webapps etc; do
+for dir in addons configurations contexts webapps; do
 	if [ ! -d "/data/openhab/$dir/" ]; then
 		mkdir -p /data/openhab/$dir/
 		cp -r /opt/openhab/$dir.org/* /data/openhab/$dir/

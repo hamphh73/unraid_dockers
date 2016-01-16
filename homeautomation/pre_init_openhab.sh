@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for dir in addons configurations contexts webapps etc; do
+for dir in addons configurations contexts webapps; do
 	mv /opt/openhab/$dir /opt/openhab/$dir.org
 	ln -s /data/openhab/$dir/ /opt/openhab/$dir
 done
