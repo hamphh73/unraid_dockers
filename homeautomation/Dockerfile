@@ -51,7 +51,7 @@ RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: ora
 	update-alternatives --set "java" "/opt/Oracle_Java/${JRE_VERSION}/bin/java" && \
 	update-alternatives --set "javaws" "/opt/Oracle_Java/${JRE_VERSION}/bin/javaws"
 	
-ENV OPENHAB_VERSION 1.7.1
+ENV OPENHAB_VERSION 1.8.0
 
 RUN cd /tmp && wget -q https://bintray.com/artifact/download/openhab/bin/distribution-${OPENHAB_VERSION}-runtime.zip && \
 	wget -q https://bintray.com/artifact/download/openhab/bin/distribution-${OPENHAB_VERSION}-addons.zip && \
