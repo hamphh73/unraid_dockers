@@ -39,9 +39,9 @@ ADD pre_init_homegear.sh /home/pre_init_homegear.sh
 RUN chmod +x /home/pre_init_homegear.sh
 RUN /home/pre_init_homegear.sh
 
-ENV JRE_VERSION jre1.8.0_60
-ENV JRE_FILE jre-8u60-linux-x64.tar.gz
-ENV JRE_URL http://download.oracle.com/otn-pub/java/jdk/8u60-b27/${JRE_FILE}
+ENV JRE_VERSION jre1.8.0_66
+ENV JRE_FILE jre-8u66-linux-x64.tar.gz
+ENV JRE_URL http://download.oracle.com/otn-pub/java/jdk/8u66-b17/${JRE_FILE}
 
 # Install Java
 RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" ${JRE_URL} && \

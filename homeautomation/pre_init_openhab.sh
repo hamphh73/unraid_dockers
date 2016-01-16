@@ -6,5 +6,5 @@ for dir in addons configurations contexts webapps; do
 done
 
 ln -s /data/openhab/workspace/ /opt/openhab/workspace
-#ln -s /data/openhab/data/ /opt/openhab/etc/rrd4j
+ln -s /data/openhab/data/ /opt/openhab/etc/rrd4j
 ln -s /logs/openhab/ /opt/openhab/logs
