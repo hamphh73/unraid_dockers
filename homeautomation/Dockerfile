@@ -39,9 +39,9 @@ ADD pre_init_homegear.sh /home/pre_init_homegear.sh
 RUN chmod +x /home/pre_init_homegear.sh
 RUN /home/pre_init_homegear.sh
 
-ENV JRE_VERSION jre1.8.0_66
-ENV JRE_FILE jre-8u66-linux-x64.tar.gz
-ENV JRE_URL http://download.oracle.com/otn-pub/java/jdk/8u66-b17/${JRE_FILE}
+ENV JRE_VERSION jre1.8.0_73
+ENV JRE_FILE jre-8u73-linux-x64.tar.gz
+ENV JRE_URL http://download.oracle.com/otn-pub/java/jdk/8u73-b02/${JRE_FILE}
 
 # Install Java
 RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" ${JRE_URL} && \
@@ -51,7 +51,7 @@ RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: ora
 	update-alternatives --set "java" "/opt/Oracle_Java/${JRE_VERSION}/bin/java" && \
 	update-alternatives --set "javaws" "/opt/Oracle_Java/${JRE_VERSION}/bin/javaws"
 	
-ENV OPENHAB_VERSION 1.8.0
+ENV OPENHAB_VERSION 1.8.1
 
 RUN cd /tmp && wget -q https://bintray.com/artifact/download/openhab/bin/distribution-${OPENHAB_VERSION}-runtime.zip && \
 	wget -q https://bintray.com/artifact/download/openhab/bin/distribution-${OPENHAB_VERSION}-addons.zip && \
