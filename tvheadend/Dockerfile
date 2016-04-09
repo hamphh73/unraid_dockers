@@ -23,7 +23,7 @@ CMD ["/sbin/my_init"]
 RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 	
 # Install dependencies, build and install tvheadend
-RUN apt-get install -qy build-essential git pkg-config libssl-dev bzip2 wget python gettext && \
+RUN apt-get install -qy build-essential git pkg-config libssl-dev bzip2 wget python gettext cmake && \
 	cd /tmp && git clone https://github.com/tvheadend/tvheadend.git && cd tvheadend && \
 	./configure --disable-hdhomerun_client --disable-libav && make && make install
 
@@ -36,11 +36,6 @@ EXPOSE 9981 9982
 VOLUME /config \
        /recordings \
 	   /data
-	   
-# Initialize Timeshift Ramdisk
-RUN mkdir -p /etc/my_init.d
-ADD ramdisk.sh /etc/my_init.d/ramdisk.sh
-RUN chmod +x /etc/my_init.d/ramdisk.sh
 	   
 # Add tv_grab_wg to /usr/bin/
 ADD tv_grab_wg tv_grab_file /usr/bin/
