@@ -25,7 +25,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 # Install build dependencies
 RUN apt-get install -qy wget build-essential
 
-ENV PRIVOXY_VERSION 3.0.23
+ENV PRIVOXY_VERSION 3.0.24
 
 # Install privoxy dependencies
 RUN apt-get install -qy automake zlib1g-dev
