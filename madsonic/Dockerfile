@@ -37,9 +37,9 @@ RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: ora
 	update-alternatives --set "java" "/opt/Oracle_Java/${JRE_VERSION}/bin/java" && \
 	update-alternatives --set "javaws" "/opt/Oracle_Java/${JRE_VERSION}/bin/javaws"
 	
-ENV MADSONIC_FILE 20151029_madsonic-6.0.7760-standalone.tar.gz
+ENV MADSONIC_FILE 20160505_madsonic-6.1.8280-standalone.tar.gz
 
-RUN cd /tmp && wget -q http://madsonic.org/download/6.0/${MADSONIC_FILE} && \
+RUN cd /tmp && wget -q http://madsonic.org/download/6.1/${MADSONIC_FILE} && \
 	mkdir /opt/madsonic && cd /opt/madsonic && tar xzvf /tmp/${MADSONIC_FILE} && \
 	mv madsonic.sh madsonic.sh.org && tr -d '\r' < madsonic.sh.org > madsonic.sh && rm madsonic.sh.org && \
 	chmod a+x madsonic.sh
