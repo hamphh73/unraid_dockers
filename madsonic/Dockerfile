@@ -44,7 +44,7 @@ RUN cd /tmp && wget -q http://madsonic.org/download/6.1/${MADSONIC_FILE} && \
 	mv madsonic.sh madsonic.sh.org && tr -d '\r' < madsonic.sh.org > madsonic.sh && rm madsonic.sh.org && \
 	chmod a+x madsonic.sh
 	
-# Log to Graylog
+## Log to Graylog
 ADD graylog.conf /etc/syslog-ng/conf.d/graylog.conf
 
 # Clean up
