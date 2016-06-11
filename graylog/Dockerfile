@@ -52,7 +52,13 @@ ADD init_elasticsearch.sh /home/init_elasticsearch.sh
 RUN chmod +x /home/init_elasticsearch.sh
 RUN /home/init_elasticsearch.sh
 
-	
+# Logstash
+ENV LOGSTASH_VERSION 2.3.2
+RUN cd /tmp && wget https://download.elastic.co/logstash/logstash/logstash-${LOGSTASH_VERSION}.tar.gz && \
+	tar -xvf logstash-${LOGSTASH_VERSION}.tar.gz && mkdir /opt/logstash && cp -R -n logstash-${LOGSTASH_VERSION}/* /opt/logstash/ && \
+	chown -R nobody:users /opt/logstash/ && chmod -R 777 /opt/logstash/
+ADD logstash.conf /opt/logstash/logstash.conf
+
 # Graylog
 ENV GRAYLOG_VERSION 2.0.2
 RUN cd /tmp && wget https://packages.graylog2.org/releases/graylog/graylog-${GRAYLOG_VERSION}.tgz && \
