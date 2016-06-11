@@ -71,7 +71,7 @@ RUN /home/init_graylog.sh
 # Clean up
 RUN apt-get purge -qq wget pwgen && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-EXPOSE 9000 12900
+EXPOSE 9000 12900-12910
 
 VOLUME /logs \
 	   /data
@@ -88,3 +88,7 @@ RUN chmod +x /etc/service/elasticsearch/run
 RUN mkdir -p /etc/service/graylog
 ADD graylog.sh /etc/service/graylog/run
 RUN chmod +x /etc/service/graylog/run
+
+RUN mkdir -p /etc/service/logstash
+ADD logstash.sh /etc/service/logstash/run
+RUN chmod +x /etc/service/logstash/run
