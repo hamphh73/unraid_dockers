@@ -1,12 +1,17 @@
 #!/bin/bash
 umask 000
 
-if [ ! -f "/data/logstash.conf/" ]; then
+if [ ! -f "/data/logstash.conf" ]; then
 	cp /opt/logstash/logstash.conf /data/logstash.conf
 	chown nobody:users /data/logstash.conf
 	chmod 777 /data/logstash.conf
 fi
 
-sv start graylog || exit 1
+if [ ! -d "/logs/graylog/" ]; then
+  mkdir /logs/graylog
+  chown nobody:users /logs/graylog
+  chmod 777 /logs/graylog
+fi
 
-exec /sbin/setuser nobody /opt/logstash/bin/logstash –f /data/logstash.conf --auto-reload
+# Start Logstash directly (doesn't work with runit)
+/opt/logstash/bin/logstash agent –f /data/logstash.conf -l /logs/graylog/logstash.log --auto-reload

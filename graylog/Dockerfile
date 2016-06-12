@@ -89,6 +89,7 @@ RUN mkdir -p /etc/service/graylog
 ADD graylog.sh /etc/service/graylog/run
 RUN chmod +x /etc/service/graylog/run
 
-RUN mkdir -p /etc/service/logstash
-ADD logstash.sh /etc/service/logstash/run
-RUN chmod +x /etc/service/logstash/run
+# Start Logstash on boot (doesn't work with runit)
+RUN mkdir -p /etc/my_init.d
+ADD logstash.sh /etc/my_init.d/logstash.sh
+RUN chmod +x /etc/my_init.d/logstash.sh
