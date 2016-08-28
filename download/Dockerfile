@@ -19,7 +19,9 @@ RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-ENV DELUGE_VERSION 1.3.13
+# Add Multiverse
+RUN sed -i "s/xenial universe/xenial universe multiverse/g" /etc/apt/sources.list
+RUN sed -i "s/xenial-updates universe/xenial-updates universe multiverse/g" /etc/apt/sources.list
 	
 # Update Image
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
@@ -27,13 +29,9 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 # Install base
 RUN apt-get install -qy wget git python 
 	
-# Install deluge dependencies
-RUN apt-get install -qy python-twisted python-openssl python-setuptools intltool python-xdg python-chardet geoip-database python-libtorrent python-glade2 xdg-utils python-mako
-
-# Install pyload dependencies
-RUN apt-get install -qy python-crypto python-pycurl python-imaging python-beaker tesseract-ocr tesseract-ocr-eng gocr unrar python-django rhino
-
 # Install deluge
+RUN apt-get install -qy python-twisted python-openssl python-setuptools intltool python-xdg python-chardet geoip-database python-libtorrent python-glade2 xdg-utils python-mako
+ENV DELUGE_VERSION 1.3.13
 RUN cd /tmp && wget -q http://download.deluge-torrent.org/source/deluge-${DELUGE_VERSION}.tar.gz && \
 	tar xzvf deluge-${DELUGE_VERSION}.tar.gz && cd deluge-${DELUGE_VERSION} && \
 	python setup.py build && sudo python setup.py install
@@ -42,6 +40,7 @@ RUN cd /tmp && wget -q http://download.deluge-torrent.org/source/deluge-${DELUGE
 RUN cd /opt && git clone https://github.com/RuudBurger/CouchPotatoServer.git
 
 # Install pyload
+RUN apt-get install -qy python-crypto python-pycurl python-imaging python-beaker tesseract-ocr tesseract-ocr-eng gocr unrar python-django rhino
 RUN cd /opt && git clone https://github.com/pyload/pyload.git
 	
 # Clean up
