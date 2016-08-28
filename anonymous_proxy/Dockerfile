@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.16
+FROM phusion/baseimage:0.9.19
 MAINTAINER hamphh <docker@hampelhh.de>
 
 # Set correct environment variables
@@ -45,7 +45,7 @@ RUN /home/pre_init_privoxy.sh
 
 #### --------------- tor -------------- #####
 	
-ENV TOR_VERSION 0.2.7.6
+ENV TOR_VERSION 0.2.8.7
 
 # Install tor dependencies
 RUN apt-get install -qy libevent-dev libssl-dev

@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.16
+FROM phusion/baseimage:0.9.19
 MAINTAINER hamphh <docker@hampelhh.de>
 
 # Set correct environment variables
@@ -19,7 +19,7 @@ RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-ENV DELUGE_VERSION 1.3.12
+ENV DELUGE_VERSION 1.3.13
 	
 # Update Image
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
