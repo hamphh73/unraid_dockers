@@ -10,7 +10,7 @@ mv /etc/homegear /etc/homegear.org
 ln -s /data/homegear/conf/ /etc/homegear
 
 # customize main.conf
-cd /etc/homegear
+cd /etc/homegear.org
 
 #sed -i.bak "s:# runAsUser = .*:runAsUser = nobody:" main.conf
 #sed -i.bak "s:# runAsGroup = .*:runAsGroup = users:" main.conf
