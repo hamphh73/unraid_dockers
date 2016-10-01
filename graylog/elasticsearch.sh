@@ -4,7 +4,7 @@ umask 000
 if [ ! -d "/data/elasticsearch/" ]; then
 	mkdir -p /data/elasticsearch/data
 	mkdir -p /data/elasticsearch/plugins
-	sudo cp -r /opt/elasticsearch/config/ /data/elasticsearch/
+	cp -r /opt/elasticsearch/config/ /data/elasticsearch/
 	
 	chown -R nobody:users /data/elasticsearch/
 	chmod -R 777 /data/elasticsearch/
@@ -17,4 +17,4 @@ if [ ! -d "/logs/graylog/" ]; then
 	chmod -R 777 /logs/graylog
 fi
 
-exec /sbin/setuser nobody /opt/elasticsearch/bin/elasticsearch --path.data /data/elasticsearch/data --path.conf /data/elasticsearch/config --path.logs /logs/graylog --path.plugins /data/elasticsearch/plugins
+exec /sbin/setuser nobody /opt/elasticsearch/bin/elasticsearch --path.data /data/elasticsearch/data --path.conf /data/elasticsearch --path.logs /logs/graylog --path.plugins /data/elasticsearch/plugins
