@@ -52,8 +52,8 @@ RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: ora
 # Install OpenHab
 ENV OPENHAB_VERSION 2.0.0
 RUN cd /tmp && \
-	wget -q https://bintray.com/openhab/mvn/download_file?file_path=org%2Fopenhab%2Fdistro%2Fopenhab%2F${OPENHAB_VERSION}%2Fopenhab-${OPENHAB_VERSION}.zip.zip && \
-	unzip openhab-${OPENHAB_VERSION} -d /opt/openhab
+	wget -q -O openhab.zip https://bintray.com/openhab/mvn/download_file?file_path=org%2Fopenhab%2Fdistro%2Fopenhab%2F${OPENHAB_VERSION}%2Fopenhab-${OPENHAB_VERSION}.zip && \
+	unzip openhab.zip -d /opt/openhab
 # Pre-Initialize OpenHab
 ADD pre_init_openhab.sh /home/pre_init_openhab.sh
 RUN chmod +x /home/pre_init_openhab.sh
