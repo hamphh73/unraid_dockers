@@ -26,7 +26,7 @@ RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 RUN apt-get install -qy wget
 	
 # InfluxDB
-ENV INFLUXDB_VERSION 1.0.0
+ENV INFLUXDB_VERSION 1.2.0
 RUN cd /tmp && wget https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_amd64.deb && \
 	dpkg -i influxdb_${INFLUXDB_VERSION}_amd64.deb
 ADD init_influxdb.sh /home/init_influxdb.sh
@@ -34,7 +34,7 @@ RUN chmod +x /home/init_influxdb.sh
 RUN /home/init_influxdb.sh
 
 # Grafana
-ENV GRAFANA_VERSION 3.1.1-1470047149
+ENV GRAFANA_VERSION 4.1.1-1484211277
 RUN apt-get install -qy adduser libfontconfig
 RUN cd /tmp && wget https://grafanarel.s3.amazonaws.com/builds/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz && \
 	tar xzvf grafana-${GRAFANA_VERSION}.linux-x64.tar.gz && cp -r grafana-${GRAFANA_VERSION}/ /opt/grafana/
