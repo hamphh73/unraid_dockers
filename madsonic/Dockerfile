@@ -39,7 +39,7 @@ RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: ora
 
 ENV MADSONIC_FILE 20161222_madsonic-6.2.9080-standalone.tar.gz
 
-RUN cd /tmp && wget -q http://beta.madsonic.org/pages/request.jsp?branch=6.2&target=${MADSONIC_FILE} && \
+RUN cd /tmp && wget -q http://madsonic.org/download/6.2/${MADSONIC_FILE} && \
 	mkdir /opt/madsonic && cd /opt/madsonic && tar xzvf /tmp/${MADSONIC_FILE} && \
 	mv madsonic.sh madsonic.sh.org && tr -d '\r' < madsonic.sh.org > madsonic.sh && rm madsonic.sh.org && \
 	chmod a+x madsonic.sh
