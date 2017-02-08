@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.16
+FROM phusion/baseimage:0.9.19
 MAINTAINER hamphh <docker@hampelhh.de>
 
 # Set correct environment variables
@@ -20,16 +20,15 @@ RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 CMD ["/sbin/my_init"]
 
 # Update Image
-RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 	
 # Install build dependencies
 RUN apt-get install -qy wget
 
-ENV JRE_VERSION jre1.8.0_60
-ENV JRE_FILE jre-8u60-linux-x64.tar.gz
-ENV JRE_URL http://download.oracle.com/otn-pub/java/jdk/8u60-b27/${JRE_FILE}
-
 # Install Java
+ENV JRE_VERSION jre1.8.0_121
+ENV JRE_FILE jre-8u121-linux-x64.tar.gz
+ENV JRE_URL http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/${JRE_FILE}
 RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" ${JRE_URL} && \
 	tar xzvf ${JRE_FILE} && mkdir /opt/Oracle_Java &&  cp -r ${JRE_VERSION} /opt/Oracle_Java/${JRE_VERSION} && \
 	update-alternatives --install "/usr/bin/java" "java" "/opt/Oracle_Java/${JRE_VERSION}/bin/java" 1 && \
@@ -37,16 +36,14 @@ RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: ora
 	update-alternatives --set "java" "/opt/Oracle_Java/${JRE_VERSION}/bin/java" && \
 	update-alternatives --set "javaws" "/opt/Oracle_Java/${JRE_VERSION}/bin/javaws"
 	
-ENV MADSONIC_FILE 20160505_madsonic-6.1.8280-standalone.tar.gz
 
-RUN cd /tmp && wget -q http://madsonic.org/download/6.1/${MADSONIC_FILE} && \
+ENV MADSONIC_FILE 20161222_madsonic-6.2.9080-standalone.tar.gz
+
+RUN cd /tmp && wget -q http://beta.madsonic.org/pages/request.jsp?branch=6.2&target=${MADSONIC_FILE} && \
 	mkdir /opt/madsonic && cd /opt/madsonic && tar xzvf /tmp/${MADSONIC_FILE} && \
 	mv madsonic.sh madsonic.sh.org && tr -d '\r' < madsonic.sh.org > madsonic.sh && rm madsonic.sh.org && \
 	chmod a+x madsonic.sh
 	
-## Log to Graylog
-ADD graylog.conf /etc/syslog-ng/conf.d/graylog.conf
-
 # Clean up
 RUN apt-get purge -qq wget && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
