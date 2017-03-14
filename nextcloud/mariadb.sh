@@ -12,7 +12,7 @@ if [ ! -d "/data/mysql/" ]; then
 	chmod -R 777 /data/mysql/
 
 	echo "mysql_install_db"
-	mysql_install_db --datadir=/data/mysql
+	mysql_install_db --user=nobody --datadir=/data/mysql
 	sleep 2
 
 	echo "start mysql"
@@ -35,7 +35,7 @@ if [ ! -d "/data/mysql/" ]; then
 	
 	sleep 2
 	echo "shutdown"
-	mysqladmin --user=root shutdown
+	mysqladmin shutdown
 	
 	sleep 2
 fi
