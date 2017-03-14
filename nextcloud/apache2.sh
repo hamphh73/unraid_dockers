@@ -8,10 +8,16 @@ if [ ! -d "/logs/nextcloud/apache2/" ]; then
 	chmod -R 777 /logs/nextcloud/apache2/
 fi
 
-if [ ! -d "/data/nextcloud/" ]; then
-	mkdir -p /data/nextcloud/
-	chown -R nobody:users /data/nextcloud/
-	chmod -R 777 /data/nextcloud/
+mkdir -p /data/app/
+rsync -r --update /opt/nextcloud/* /data/app
+chown -R nobody:users /data/app/
+chmod -R 777 /data/app/
+
+
+if [ ! -d "/data/data/" ]; then
+	mkdir -p /data/data/
+	chown -R nobody:users /data/data/
+	chmod -R 777 /data/data/
 fi
 
 rm -f /var/run/apache2/apache2.pid

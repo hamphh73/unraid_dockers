@@ -51,12 +51,15 @@ RUN a2enmod php7.0 && a2enmod rewrite && a2enmod headers && a2enmod env && a2enm
 	a2enmod mime && a2enmod setenvif && a2enmod ssl
 
 # Install nextcloud
-ENV NC_VERSION 10.0.0
+ENV NC_VERSION 11.0.2
+RUN apt-get install -qy smbclient rsync
 RUN cd /tmp && wget -q https://download.nextcloud.com/server/releases/nextcloud-${NC_VERSION}.zip && \
-	unzip nextcloud-${NC_VERSION}.zip && cp -r nextcloud /var/www/ && chown nobody:users /var/www/nextcloud/ -R
+	unzip nextcloud-${NC_VERSION}.zip && cp -r nextcloud /opt/ && ln -s /data/app/ /var/www/nextcloud
 
 # Clean up
 RUN rm -rf /tmp/* /var/tmp/*
+
+
 
 #Start mariadb when container starts
 RUN mkdir -p /etc/service/mariadb
