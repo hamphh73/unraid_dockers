@@ -6,6 +6,7 @@ user=nobody
 [mysqld]
 user=nobody
 
+[client-server]
 # Import all .cnf files from configuration directory
 !includedir /etc/mysql/conf.d/
 !includedir /etc/mysql/mariadb.conf.d/
@@ -13,9 +14,7 @@ user=nobody
 [server]
 socket=/home/mysql.sock
 pid-file=/home/mysql.pid
-log-bin = /logs/nextcloud/mysql/mariadb-bin
-log-bin-index = /logs/nextcloud/mysql/mariadb-bin.index
-binlog_format  = mixed
+bind-address=0.0.0.0
 
 [mysqld_safe]
 user=nobody

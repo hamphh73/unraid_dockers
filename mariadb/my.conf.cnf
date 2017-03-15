@@ -1,0 +1,5 @@
+# mariadb configuration
+
+[client-server]
+!include /etc/mysql/my.cnf
+

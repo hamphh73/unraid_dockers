@@ -38,11 +38,6 @@ ADD pre_init_apache2.sh /home/pre_init_apache2.sh
 RUN chmod +x /home/pre_init_apache2.sh
 RUN /home/pre_init_apache2.sh
 
-# Install mariadb
-RUN apt-get install -qy mariadb-server mariadb-client
-RUN mv /etc/mysql/my.cnf /etc/mysql/my.cnf.org
-ADD my.cnf /etc/mysql/my.cnf
-
 # Install php7
 RUN apt-get install -qy php7.0-fpm php7.0-mysql php7.0-common php7.0-gd php7.0-json php7.0-cli \
 	php7.0-curl libapache2-mod-php7.0 php7.0-zip php7.0-xml php7.0-mbstring
@@ -58,13 +53,6 @@ RUN cd /tmp && wget -q https://download.nextcloud.com/server/releases/nextcloud-
 
 # Clean up
 RUN rm -rf /tmp/* /var/tmp/*
-
-
-
-#Start mariadb when container starts
-RUN mkdir -p /etc/service/mariadb
-ADD mariadb.sh /etc/service/mariadb/run
-RUN chmod +x /etc/service/mariadb/run
 
 #Start apache2 when container starts
 RUN mkdir -p /etc/service/apache2
