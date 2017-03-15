@@ -7,7 +7,7 @@ if [ ! -d "/logs/nextcloud/apache2/" ]; then
 fi
 
 mkdir -p /data/app/
-rsync -r --update /opt/nextcloud/* /data/app
+rsync -a --update /opt/nextcloud/ /data/app
 chown -R nobody:users /data/app/
 chmod -R 777 /data/app/
 
