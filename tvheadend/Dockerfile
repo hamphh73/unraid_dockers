@@ -24,9 +24,9 @@ RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold
 	
 # Install dependencies, build and install tvheadend
 ENV TVH_BRANCH release/4.2
-RUN apt-get install -qy build-essential git pkg-config libssl-dev bzip2 wget python gettext cmake && \
-	cd /tmp && git clone https://github.com/tvheadend/tvheadend.git && cd tvheadend && \
-	git checkout ${TVH_BRANCH} &&./configure --disable-hdhomerun_client --disable-libav && make && make install
+RUN apt-get install -qy build-essential git pkg-config libssl-dev bzip2 wget python gettext cmake
+RUN cd /tmp && git clone https://github.com/tvheadend/tvheadend.git && cd tvheadend && git checkout ${TVH_BRANCH}
+RUN ./configure --disable-hdhomerun_client --disable-libav && make && make install
 
 
 # Clean up
