@@ -22,13 +22,15 @@ CMD ["/sbin/my_init"]
 # Update Image
 RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 	
-# Install tvheadend
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 && \
-	echo "deb https://dl.bintray.com/tvheadend/deb xenial stable-4.2" | tee -a /etc/apt/sources.list && \
-	apt-get update -qq && apt-get install -qy tvheadend
+# Install dependencies, build and install tvheadend
+ENV TVH_BRANCH release/4.2
+RUN apt-get install -qy build-essential git pkg-config libssl-dev bzip2 wget python gettext cmake && \
+	cd /tmp && git clone https://github.com/tvheadend/tvheadend.git && cd tvheadend && \
+	git checkout ${TVH_BRANCH} &&./configure --disable-hdhomerun_client --disable-libav && make && make install
+
 
 # Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get purge -qq wget pkg-config build-essential && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 9981 9982
 
