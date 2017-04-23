@@ -24,7 +24,7 @@ RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold
 	
 # Install tvheadend
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 && \
-	echo "deb https://dl.bintray.com/tvheadend/deb xenial stable-4.2" | sudo tee -a /etc/apt/sources.list && \
+	echo "deb https://dl.bintray.com/tvheadend/deb xenial stable-4.2" | tee -a /etc/apt/sources.list && \
 	apt-get update -qq && apt-get install -qy tvheadend
 
 # Clean up
