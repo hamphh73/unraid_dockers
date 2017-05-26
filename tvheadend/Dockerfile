@@ -25,7 +25,7 @@ RUN echo "deb https://dl.bintray.com/tvheadend/deb xenial stable-4.2" | tee -a /
 RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 	
 # Install tvheadend
-RUN apt-get -qy install tvheadend
+RUN apt-get -qy install tvheadend; exit 0
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
