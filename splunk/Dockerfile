@@ -26,7 +26,7 @@ RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold
 # Install splunk
 RUN cd /tmp && wget -q -O splunklight.tgz 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=6.6.1&product=splunk_light&filename=splunklight-6.6.1-aeae3fe0c5af-Linux-x86_64.tgz&wget=true' && \
 	tar xvzf splunklight.tgz && mkdir /opt/splunk && cp -r splunk /opt/ && chown -R nobody:users /opt/splunk
-RUN ln -s /data/splunk /opt/splunk/var
+RUN ln -s /data/ /opt/splunk/var
 	
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
