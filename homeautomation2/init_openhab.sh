@@ -14,3 +14,15 @@ if [ ! -d "/logs/openhab/" ]; then
 	chown -R nobody:users /logs/openhab/
 	chmod -R 777 /logs/openhab/
 fi
+
+if [ ! -L "/data/openhab/userdata/logs" ]; then
+	rm -rf /data/openhab/userdata/logs
+	ln -s /logs/openhab/ /data/openhab/userdata/logs
+fi
+
+CurrentVersion="$(awk '/openhab-distro/{print $3}' "/opt/openhab/userdata/etc/version.properties")"
+DockerVersion="$(awk '/openhab-distro/{print $3}' "/opt/openhab/userdata.org/etc/version.properties")"
+
+if [ "$DockerVersion" != "$CurrentVersion" ]; then
+	"/opt/openhab/runtime/bin/update" "$DockerVersion" "/opt/openhab"  ;
+fi

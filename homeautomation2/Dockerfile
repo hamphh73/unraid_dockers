@@ -50,7 +50,7 @@ RUN cd /tmp && wget -q --no-check-certificate --no-cookies --header "Cookie: ora
 	update-alternatives --set "javaws" "/opt/Oracle_Java/${JRE_VERSION}/bin/javaws"
 
 # Install OpenHab
-ENV OPENHAB_VERSION 2.0.0
+ENV OPENHAB_VERSION 2.1.0
 RUN cd /tmp && \
 	wget -q -O openhab.zip https://bintray.com/openhab/mvn/download_file?file_path=org%2Fopenhab%2Fdistro%2Fopenhab%2F${OPENHAB_VERSION}%2Fopenhab-${OPENHAB_VERSION}.zip && \
 	unzip openhab.zip -d /opt/openhab
