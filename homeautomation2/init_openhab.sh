@@ -20,9 +20,12 @@ if [ ! -L "/data/openhab/userdata/logs" ]; then
 	ln -s /logs/openhab/ /data/openhab/userdata/logs
 fi
 
-CurrentVersion="$(awk '/openhab-distro/{print $3}' "/opt/openhab/userdata/etc/version.properties")"
-DockerVersion="$(awk '/openhab-distro/{print $3}' "/opt/openhab/userdata.org/etc/version.properties")"
+if ! cmp -s /opt/openhab/userdata/etc/version.properties /opt/openhab/userdata.org/etc/version.properties; then
+	cp /opt/openhab/runtime/bin/update /tmp/openhab/
+	sed -i.bak "s:read -r answer:answer=y:" /tmp/openhab/update
+	chmod a+x /tmp/openhab/update
 
-if [ "$DockerVersion" != "$CurrentVersion" ]; then
-	"/opt/openhab/runtime/bin/update" "$DockerVersion" "/opt/openhab"  ;
+	DockerVersion="$(awk '/openhab-distro/{print $3}' "/opt/openhab/userdata.org/etc/version.properties")"
+	"/tmp/openhab/update" "$DockerVersion" "/opt/openhab"  ;
 fi
+
