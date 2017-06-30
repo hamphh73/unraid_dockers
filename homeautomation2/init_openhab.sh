@@ -21,6 +21,7 @@ if [ ! -L "/data/openhab/userdata/logs" ]; then
 fi
 
 if ! cmp -s /opt/openhab/userdata/etc/version.properties /opt/openhab/userdata.org/etc/version.properties; then
+	mkdir -p /tmp/openhab
 	cp /opt/openhab/runtime/bin/update /tmp/openhab/
 	sed -i.bak "s:read -r answer:answer=y:" /tmp/openhab/update
 	chmod a+x /tmp/openhab/update
