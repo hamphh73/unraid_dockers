@@ -24,9 +24,12 @@ if ! cmp -s /opt/openhab/userdata/etc/version.properties /opt/openhab/userdata.o
 	mkdir -p /tmp/openhab
 	cp /opt/openhab/runtime/bin/update /tmp/openhab/
 	sed -i.bak "s:read -r answer:answer=y:" /tmp/openhab/update
+	sed -i.bak "s:> \"\$TempDir/update\":> \"\$TempDir/update.new\":" /tmp/openhab/update
 	chmod a+x /tmp/openhab/update
 
 	DockerVersion="$(awk '/openhab-distro/{print $3}' "/opt/openhab/userdata.org/etc/version.properties")"
 	"/tmp/openhab/update" "$DockerVersion" "/opt/openhab"  ;
+	
+	chown -R nobody:users /opt/openhab
+	chown -R nobody:users /data/openhab
 fi
-
