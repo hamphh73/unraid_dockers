@@ -34,9 +34,9 @@ RUN chmod +x /home/init_influxdb.sh
 RUN /home/init_influxdb.sh
 
 # Grafana
-ENV GRAFANA_VERSION 4.1.1-1484211277
+ENV GRAFANA_VERSION 4.4.1
 RUN apt-get install -qy adduser libfontconfig
-RUN cd /tmp && wget https://grafanarel.s3.amazonaws.com/builds/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz && \
+RUN cd /tmp && wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz && \
 	tar xzvf grafana-${GRAFANA_VERSION}.linux-x64.tar.gz && cp -r grafana-${GRAFANA_VERSION}/ /opt/grafana/
 ADD init_grafana.sh /home/init_grafana.sh
 RUN chmod +x /home/init_grafana.sh
