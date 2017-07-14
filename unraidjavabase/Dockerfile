@@ -12,3 +12,11 @@ RUN cd /tmp && wget -O java ${JRE_URL} && \
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ADD autostart.sh /home/autostart.sh
+
+# Check autostart at startup
+RUN mkdir -p /etc/my_init.d
+ADD init_autostart.sh /etc/my_init.d/init_autostart.sh
+RUN chmod +x /etc/my_init.d/init_autostart.sh
+
