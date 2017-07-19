@@ -21,7 +21,7 @@ CMD ["/sbin/my_init"]
 
 # Update Image and install basics
 RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
-	apt-get install -qy wget
+	apt-get install -qy wget unzip
 	
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

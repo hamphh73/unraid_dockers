@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.21
+FROM phusion/baseimage:latest
 MAINTAINER hamphh <docker@hampelhh.de>
 
 # Set correct environment variables

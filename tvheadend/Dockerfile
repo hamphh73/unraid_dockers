@@ -1,28 +1,14 @@
-FROM phusion/baseimage:0.9.21
-MAINTAINER hamphh <docker@hampelhh.de>
+FROM hamphh/unraidbase:latest
 
-# Set correct environment variables
-ENV DEBIAN_FRONTEND=noninteractive HOME="/root" TERM=xterm LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
+EXPOSE 9981 9982
 
-# Set the locale
-RUN locale-gen en_US.UTF-8
+VOLUME /config \
+       /recordings
 
-# Configure user nobody to match unRAID's settings
-RUN usermod -u 99 nobody && \
-	usermod -g 100 nobody && \
-	usermod -d /home nobody && \
-	chown -R nobody:users /home
-
-#Disable the SSH server
-RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
-
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
-
-# Add tvheadend repo and update Image
+# Add tvheadend repo
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61
 RUN echo "deb https://dl.bintray.com/tvheadend/deb xenial stable-4.2" | tee -a /etc/apt/sources.list
-RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+RUN apt-get update -qq
 	
 # Install tvheadend
 RUN apt-get -qy install tvheadend; exit 0
@@ -30,12 +16,6 @@ RUN apt-get -qy install tvheadend; exit 0
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-EXPOSE 9981 9982
-
-VOLUME /config \
-       /recordings \
-	   /data
-	   
 # Add tv_grab_wg to /usr/bin/
 ADD tv_grab_wg tv_grab_file /usr/bin/
 RUN chmod +x /usr/bin/tv_grab_*

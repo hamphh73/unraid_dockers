@@ -1,34 +1,10 @@
-FROM phusion/baseimage:0.9.19
-MAINTAINER hamphh <docker@hampelhh.de>
+FROM hamphh/unraidbase:latest
 
 EXPOSE 80
 
-VOLUME /data \
-	   /logs
+RUN apt-get update -qq
 
-# Set correct environment variables
-ENV DEBIAN_FRONTEND=noninteractive HOME="/root" TERM=xterm LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
-
-# Set the locale
-RUN locale-gen en_US.UTF-8
-
-# Configure user nobody to match unRAID's settings
-RUN usermod -u 99 nobody && \
-	usermod -g 100 nobody && \
-	usermod -d /home nobody && \
-	chown -R nobody:users /home
-
-#Disable the SSH server
-RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
-
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
-
-# Update Image and install basics
-RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
-	apt-get install -qy wget unzip
-	
-# Install apache2	
+# Install apache2
 RUN apt-get install -qy apache2 apache2-utils
 RUN chown nobody:users /var/www/html/ -R
 ADD nextcloud.conf /etc/apache2/sites-available/nextcloud.conf
@@ -46,13 +22,13 @@ RUN a2enmod php7.0 && a2enmod rewrite && a2enmod headers && a2enmod env && a2enm
 	a2enmod mime && a2enmod setenvif && a2enmod ssl
 
 # Install nextcloud
-ENV NC_VERSION 11.0.2
+ENV NC_VERSION 12.0.0
 RUN apt-get install -qy smbclient rsync
 RUN cd /tmp && wget -q https://download.nextcloud.com/server/releases/nextcloud-${NC_VERSION}.zip && \
 	unzip nextcloud-${NC_VERSION}.zip && cp -r nextcloud /opt/ && ln -s /data/app/ /var/www/nextcloud
 
 # Clean up
-RUN rm -rf /tmp/* /var/tmp/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #Start apache2 when container starts
 RUN mkdir -p /etc/service/apache2
