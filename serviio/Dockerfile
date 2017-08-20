@@ -11,7 +11,7 @@ RUN apt-get update -qq
 RUN apt-get install -qy ffmpeg dcraw
 
 ## Install Serviio
-ENV SERVIIO_VERSION 1.8
+ENV SERVIIO_VERSION 1.9
 RUN cd /tmp && \
 	wget -q http://download.serviio.org/releases/serviio-${SERVIIO_VERSION}-linux.tar.gz && \
 	tar xzvf serviio-${SERVIIO_VERSION}-linux.tar.gz && \
