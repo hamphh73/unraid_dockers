@@ -1,8 +1,8 @@
 FROM hamphh/unraidbase:latest
 
 # Install Java
-ENV JRE_VERSION jre1.8.0_131
-ENV JRE_URL http://javadl.oracle.com/webapps/download/AutoDL?BundleId=220305_d54c1d3a095b4ff2b6607d096fa80163
+ENV JRE_VERSION jre1.8.0_144
+ENV JRE_URL http://javadl.oracle.com/webapps/download/AutoDL?BundleId=225345_090f390dda5b47b9b721c7dfaa008135
 RUN cd /tmp && wget -O java ${JRE_URL} && \
 	tar xzvf java && mkdir /opt/Oracle_Java &&  cp -r ${JRE_VERSION} /opt/Oracle_Java/${JRE_VERSION} && \
 	update-alternatives --install "/usr/bin/java" "java" "/opt/Oracle_Java/${JRE_VERSION}/bin/java" 1 && \
