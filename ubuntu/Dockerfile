@@ -18,6 +18,9 @@ CMD ["/sbin/my_init"]
 
 # Update Image
 RUN apt-get update -qq && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+
+# Clean up
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 	
 # Enable ssh
 RUN rm -f /etc/service/sshd/down
